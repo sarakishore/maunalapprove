@@ -46,28 +46,28 @@ jobs:
           fi
           
   Dev-Env:
-    runs-on: ubuntu-latest
-    needs: Stage3
-    environment:
-      name: manual_env
-    steps:
-      - name: 'Run some manual_env steps'
-        shell: pwsh
-        run: |
-          Write-Host 'Done some manual_env deploy work'
+  runs-on: ubuntu-latest
+  needs: Stage3
+  environment:
+    name: manual_env
+  steps:
+    - name: 'Run some manual_env steps'
+      shell: pwsh
+      run: |
+        Write-Host 'Done some manual_env deploy work'
 
-  Stage4:
-    runs-on: ubuntu-latest
-    needs: Dev-Env
-    if: ${{ needs.Stage3.outputs.create_user == 'false' }}
-    steps:
-      - name: 'Echo stage 4'
-        run: echo 'Stage 4'
+Stage4:
+  runs-on: ubuntu-latest
+  needs: Dev-Env
+  if: ${{ needs.Stage3.outputs.create_user != 'false' }}  # Trigger if create_user is not 'false'
+  steps:
+    - name: 'Echo stage 4'
+      run: echo 'Stage 4'
 
-  Stage5:
-    runs-on: ubuntu-latest
-    needs: Dev-Env
-    if: ${{ needs.Stage3.outputs.create_user == 'true' }}
-    steps:
-      - name: 'Echo stage 5'
-        run: echo 'Stage 5'
+Stage5:
+  runs-on: ubuntu-latest
+  needs: Dev-Env
+  if: ${{ needs.Stage3.outputs.create_user == 'true' }}
+  steps:
+    - name: 'Echo stage 5'
+      run: echo 'Stage 5'
