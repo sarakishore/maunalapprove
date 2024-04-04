@@ -2,7 +2,7 @@ name: Build and User Approval Workflow
 on:
   push:
     branches:
-      - master
+      - main
 jobs:
   Pre-Dev-Steps:
     runs-on: ubuntu-latest
