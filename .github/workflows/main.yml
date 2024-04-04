@@ -52,6 +52,7 @@ jobs:
     needs: Stage3
     environment:
       name: manual_env
+    if: ${{ github.event.review.state != 'approved' }} 
     steps:
       - name: 'Run some manual_env steps'
         shell: pwsh
