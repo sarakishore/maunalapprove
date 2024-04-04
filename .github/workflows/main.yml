@@ -61,7 +61,7 @@ jobs:
   Stage4:
     runs-on: ubuntu-latest
     needs: Dev-Env
-    if: ${{ needs.Dev-Env.outputs.approval_required != 'true' }}  # Trigger if approval is required
+    if: ${{ github.event.review.state != 'approved' }}  # Trigger if approval is not required
     steps:
       - name: 'Echo stage 4'
         run: echo 'Stage 4'
@@ -69,7 +69,7 @@ jobs:
   Stage5:
     runs-on: ubuntu-latest
     needs: Dev-Env
-    if: ${{ needs.Dev-Env.outputs.approval_required == 'false' }}  # Trigger if approval is required
+    if: ${{ github.event.review.state == 'approved' }}  # Trigger if approval is required
     steps:
       - name: 'Echo stage 5'
         run: echo 'Stage 5'
