@@ -15,7 +15,7 @@ jobs:
       runs-on: ubuntu-latest
       needs: Pre-Dev-Steps
       environment:
-        name: Manual_env
+        name: manual_env
       steps:
         - name: 'Run some manual_env steps'
           shell: pwsh
