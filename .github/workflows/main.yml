@@ -32,7 +32,7 @@ jobs:
     runs-on: ubuntu-latest
     needs: Stage2
     outputs:
-      approval_required: ${{ steps.create_user.outputs.approval_required }}
+      approval_required: ${{ github.event.review.state != 'approved' }} 
     steps:
       - name: 'Create user and await manual approval'
         id: create_user
@@ -46,9 +46,19 @@ jobs:
           else
             echo "::set-output name=approval_required::false"
           fi
-  Stage4:
+  Dev-Env:
     runs-on: ubuntu-latest
     needs: Stage3
+    environment:
+      name: manual_env
+    steps:
+      - name: 'Run some manual_env steps'
+        shell: pwsh
+        run: |
+          Write-Host 'Done some manual_env deploy work'
+  Stage4:
+    runs-on: ubuntu-latest
+    needs: Dev-Env
     if: ${{ github.event.review.state != 'approved' }}  # Trigger if approval is not required
     steps:
       - name: 'Echo stage 4'
@@ -56,7 +66,7 @@ jobs:
 
   Stage5:
     runs-on: ubuntu-latest
-    needs: Stage3
+    needs: Dev-Env
     if: ${{ github.event.review.state == 'approved' }}  # Trigger if approval is required
     steps:
       - name: 'Echo stage 5'
