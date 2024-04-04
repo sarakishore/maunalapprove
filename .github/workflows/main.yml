@@ -62,7 +62,7 @@ jobs:
     if: ${{ github.event.review.state != 'approved' }}  # Trigger if approval is not required
     steps:
       - name: 'Echo stage 4'
-        run: echo 'Stage 4'
+        run: echo ${{ github.event.review.state }}
 
   Stage5:
     runs-on: ubuntu-latest
